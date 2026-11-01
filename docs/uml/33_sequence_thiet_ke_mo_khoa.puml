@@ -1,0 +1,41 @@
+@startuml sequence_thiet_ke_mo_khoa
+!include style.iuml
+title Biểu đồ tuần tự thiết kế – Mở khóa bằng mã PIN (UC-07)
+autonumber
+
+actor "Người dùng" as U
+participant ":LockScreen" as L
+participant ":AuthService" as A
+participant ":SqliteSettingsRepository" as R
+participant "expo-crypto" as C
+participant ":App" as App
+
+U -> L : bấm đủ 4 chữ số
+L -> A : verify(pin)
+activate A
+A -> R : get("pin_locked_until")
+R --> A : lockedUntil
+alt now < lockedUntil
+  A --> L : throw BusinessError(PIN_LOCKED)
+  L --> U : "Thử lại sau N giây"
+else không bị khóa
+  A -> R : get("pin_salt"), get("pin_hash")
+  R --> A : salt, expectedHash
+  A -> C : digestStringAsync(SHA256, salt + pin)
+  C --> A : hash
+  alt hash = expectedHash
+    A -> R : set("pin_failed_attempts", "0")
+    A --> L : true
+    L -> App : onUnlocked()
+    App --> U : hiển thị danh bạ
+  else sai
+    A -> R : get / set("pin_failed_attempts", n + 1)
+    opt n + 1 >= 5
+      A -> R : set("pin_locked_until", now + 30000)
+    end
+    A --> L : throw BusinessError(PIN_WRONG | PIN_LOCKED)
+    L --> U : thông báo lỗi, xóa các ô đã nhập
+  end
+end
+deactivate A
+@enduml

@@ -1,0 +1,35 @@
+@startuml sequence_thiet_ke_khoi_phuc
+!include style.iuml
+title Biểu đồ tuần tự thiết kế – Khôi phục liên hệ từ thùng rác (UC-04b)
+autonumber
+
+actor "Người dùng" as U
+participant ":TrashScreen" as T
+participant ":ContactService" as S
+participant ":SqliteContactRepository" as R
+database "SQLite" as DB
+
+U -> T : bấm biểu tượng "Khôi phục"
+T -> S : restore(id)
+activate S
+S -> R : findById(id)
+R -> DB : SELECT ... WHERE c.id = ?
+DB --> R : row
+R --> S : contact
+S -> R : findActiveByPhone(contact.phone, id)
+R -> DB : SELECT ... WHERE is_deleted = 0 AND phone = ? AND id IS NOT ?
+DB --> R : row | null
+R --> S : duplicate | null
+alt số đã được liên hệ khác dùng
+  S --> T : throw BusinessError(DUPLICATE_PHONE)
+  T --> U : "Không thể khôi phục: số ... đang được dùng cho ..."
+else không trùng
+  S -> R : restore(id, now)
+  R -> DB : UPDATE contacts SET is_deleted = 0, deleted_at = NULL ...
+  S --> T : ok
+  T -> S : listTrash()
+  S --> T : danh sách mới
+  T --> U : liên hệ biến khỏi thùng rác
+end
+deactivate S
+@enduml

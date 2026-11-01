@@ -1,0 +1,37 @@
+@startuml activity_mo_khoa
+!include style.iuml
+title Biểu đồ hoạt động – Xác thực bằng mã PIN (UC-07)
+
+start
+:Mở ứng dụng / ứng dụng trở lại từ nền;
+if (Đã thiết lập PIN?) then (chưa)
+  :Nhập PIN 4 số lần 1;
+  :Nhập lại PIN lần 2;
+  if (Hai lần khớp và đúng 4 chữ số?) then (có)
+    :Sinh muối ngẫu nhiên, băm SHA-256(muối + PIN);
+    :Lưu muối và giá trị băm vào app_settings;
+  else (không)
+    :Báo lỗi, nhập lại từ đầu;
+    stop
+  endif
+else (rồi)
+  if (Đang trong thời gian khóa?) then (có)
+    :Báo "Thử lại sau N giây";
+    stop
+  endif
+  :Nhập PIN 4 số;
+  if (Băm(muối + PIN) = giá trị đã lưu?) then (đúng)
+    :Đặt lại số lần sai = 0;
+  else (sai)
+    :Tăng số lần sai;
+    if (Số lần sai >= 5?) then (có)
+      :Khóa 30 giây, đặt lại bộ đếm;
+    else (không)
+      :Báo "còn (5 - n) lần thử";
+    endif
+    stop
+  endif
+endif
+:Mở màn hình danh bạ;
+stop
+@enduml

@@ -1,0 +1,4 @@
+# Thư mục làm việc cục bộ
+.claude/
+*.tmp
+~$*

@@ -1,0 +1,54 @@
+@startuml class_phan_tich_bce
+!pragma layout smetana
+!include style.iuml
+title Biểu đồ lớp phân tích (Biên – Điều khiển – Thực thể)
+
+package "Lớp biên (Boundary)" {
+  class GDKhoaUngDung <<boundary>>
+  class GDDanhSachLienHe <<boundary>>
+  class GDChiTietLienHe <<boundary>>
+  class GDFormLienHe <<boundary>>
+  class GDNhom <<boundary>>
+  class GDThungRac <<boundary>>
+}
+
+package "Lớp điều khiển (Control)" {
+  class DKXacThuc <<control>> {
+    thiếtLậpPIN()
+    xácThực()
+    đổiPIN()
+  }
+  class DKLienHe <<control>> {
+    thêm()
+    sửa()
+    tìmKiếm()
+    đánhDấuYêuThích()
+    chuyểnVàoThùngRác()
+    khôiPhục()
+    xóaVĩnhViễn()
+  }
+  class DKNhom <<control>> {
+    thêmNhóm()
+    đổiTên()
+    xóaNhóm()
+  }
+}
+
+package "Lớp thực thể (Entity)" {
+  class LienHe <<entity>>
+  class NhomLienHe <<entity>>
+  class CauHinhBaoMat <<entity>>
+}
+
+GDKhoaUngDung --> DKXacThuc
+GDDanhSachLienHe --> DKLienHe
+GDChiTietLienHe --> DKLienHe
+GDFormLienHe --> DKLienHe
+GDFormLienHe --> DKNhom
+GDNhom --> DKNhom
+GDThungRac --> DKLienHe
+DKXacThuc --> CauHinhBaoMat
+DKLienHe --> LienHe
+DKNhom --> NhomLienHe
+NhomLienHe "0..1" o-- "*" LienHe
+@enduml

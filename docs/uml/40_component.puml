@@ -1,0 +1,51 @@
+@startuml component
+!pragma layout smetana
+!include style.iuml
+title Biểu đồ thành phần – kiến trúc phân tầng
+
+package "Tầng giao diện (Presentation)" {
+  [App + Navigation\n(React Navigation)] as Nav
+  [Screens\n(8 màn hình)] as Screens
+  [UI components\n(Avatar, Field, Button...)] as UI
+}
+
+package "Tầng nghiệp vụ (Business)" {
+  [ContactService] as CS
+  [GroupService] as GS
+  [AuthService] as AS
+  [validation] as VAL
+}
+
+package "Tầng truy cập dữ liệu (Data access)" {
+  [SqliteContactRepository] as CR
+  [SqliteGroupRepository] as GR
+  [SqliteSettingsRepository] as SR
+  [schema (migrate, seed)] as SCH
+}
+
+database "SQLite\n danhba.db" as DB
+
+package "Thư viện nền tảng" {
+  [expo-sqlite] as ExpoSQL
+  [expo-crypto] as ExpoCrypto
+  [React Native Linking] as Linking
+}
+
+Nav --> Screens
+Screens --> UI
+Screens --> CS
+Screens --> GS
+Screens --> AS
+Screens --> Linking : tel: / sms: / mailto:
+CS --> VAL
+AS --> VAL
+CS --> CR
+GS --> GR
+AS --> SR
+AS --> ExpoCrypto : SHA-256
+CR --> ExpoSQL
+GR --> ExpoSQL
+SR --> ExpoSQL
+SCH --> ExpoSQL
+ExpoSQL --> DB
+@enduml

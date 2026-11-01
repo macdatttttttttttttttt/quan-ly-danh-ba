@@ -1,0 +1,38 @@
+@startuml usecase_tong_quat
+!pragma layout smetana
+!include style.iuml
+left to right direction
+title Biểu đồ ca sử dụng tổng quát – Ứng dụng Quản lý danh bạ
+
+actor "Người dùng\n(chủ thiết bị)" as User
+actor "Ứng dụng hệ thống\n(Điện thoại, SMS, Email)" as Sys
+
+rectangle "Ứng dụng Quản lý danh bạ" {
+  usecase "UC-07 Xác thực bằng mã PIN" as UC07
+  usecase "UC-01 Xem danh sách liên hệ" as UC01
+  usecase "UC-02 Thêm liên hệ" as UC02
+  usecase "UC-03 Sửa liên hệ" as UC03
+  usecase "UC-04 Xóa / khôi phục liên hệ" as UC04
+  usecase "UC-05 Tìm kiếm liên hệ" as UC05
+  usecase "UC-06 Quản lý liên hệ yêu thích" as UC06
+  usecase "UC-08 Liên lạc nhanh" as UC08
+  usecase "UC-09 Quản lý nhóm liên hệ" as UC09
+}
+
+User --> UC07
+User --> UC01
+User --> UC02
+User --> UC03
+User --> UC04
+User --> UC05
+User --> UC06
+User --> UC08
+User --> UC09
+UC08 --> Sys
+
+UC05 .> UC01 : <<extend>>
+note right of UC07
+  Mọi ca sử dụng khác chỉ thực hiện được
+  sau khi người dùng mở khóa thành công.
+end note
+@enduml

@@ -1,0 +1,46 @@
+# Tích hợp liên tục: mỗi lần push / pull request sẽ tự động
+# cài thư viện, kiểm tra mã (ESLint), chạy kiểm thử (Jest) và xuất báo cáo.
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: danh-ba
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: danh-ba/package-lock.json
+
+      - name: Cài thư viện
+        run: npm ci
+
+      - name: Kiểm tra mã nguồn (ESLint)
+        run: npm run lint
+
+      - name: Chạy kiểm thử và đo độ bao phủ
+        run: npm run test:ci
+        env:
+          JEST_JUNIT_OUTPUT_DIR: reports
+
+      - name: Đóng gói bản web (kiểm tra build)
+        run: npx expo export --platform web
+
+      - name: Lưu báo cáo kiểm thử
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            danh-ba/reports/
+            danh-ba/coverage/

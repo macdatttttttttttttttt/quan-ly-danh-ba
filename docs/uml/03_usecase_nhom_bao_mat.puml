@@ -1,0 +1,52 @@
+@startuml usecase_nhom_bao_mat
+!pragma layout smetana
+!include style.iuml
+left to right direction
+title Phân rã ca sử dụng "Quản lý nhóm", "Xác thực PIN" và "Liên lạc nhanh"
+
+actor "Người dùng" as User
+actor "Ứng dụng hệ thống" as Sys
+
+rectangle "Quản lý nhóm (UC-09)" {
+  usecase "Xem danh sách nhóm" as G1
+  usecase "Thêm nhóm" as G2
+  usecase "Đổi tên nhóm" as G3
+  usecase "Xóa nhóm" as G4
+  usecase "Xem liên hệ trong nhóm" as G5
+  usecase "Kiểm tra tên nhóm\n(không rỗng, không trùng)" as G6
+}
+
+rectangle "Xác thực (UC-07)" {
+  usecase "Thiết lập mã PIN lần đầu" as A1
+  usecase "Mở khóa ứng dụng" as A2
+  usecase "Đổi mã PIN" as A3
+  usecase "Khóa tạm 30 giây\nkhi sai 5 lần" as A4
+}
+
+rectangle "Liên lạc nhanh (UC-08)" {
+  usecase "Gọi điện" as C1
+  usecase "Nhắn tin SMS" as C2
+  usecase "Gửi email" as C3
+}
+
+User --> G1
+User --> G2
+User --> G3
+User --> G4
+User --> G5
+G2 ..> G6 : <<include>>
+G3 ..> G6 : <<include>>
+
+User --> A1
+User --> A2
+User --> A3
+A4 .> A2 : <<extend>>
+A3 ..> A2 : <<include>>
+
+User --> C1
+User --> C2
+User --> C3
+C1 --> Sys
+C2 --> Sys
+C3 --> Sys
+@enduml

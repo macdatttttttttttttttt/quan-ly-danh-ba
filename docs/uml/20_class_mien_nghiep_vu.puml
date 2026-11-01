@@ -1,0 +1,38 @@
+@startuml class_mien_nghiep_vu
+!pragma layout smetana
+!include style.iuml
+hide methods
+title Biểu đồ lớp miền nghiệp vụ (mô hình khái niệm)
+
+class "LiênHệ" as LienHe {
+  họTên : Chuỗi (bắt buộc, ≤ 100)
+  sốĐiệnThoại : Chuỗi (bắt buộc, duy nhất)
+  email : Chuỗi [0..1]
+  địaChỉ : Chuỗi [0..1]
+  ghiChú : Chuỗi [0..1] (≤ 500)
+  yêuThích : Logic
+  đãXóa : Logic
+  thờiĐiểmXóa : Ngày giờ [0..1]
+  ngàyTạo : Ngày giờ
+  ngàyCậpNhật : Ngày giờ
+}
+
+class "NhómLiênHệ" as Nhom {
+  tênNhóm : Chuỗi (duy nhất, ≤ 50)
+  ngàyTạo : Ngày giờ
+}
+
+class "CấuHìnhBảoMật" as BaoMat {
+  giáTrịBămPIN : Chuỗi
+  muối : Chuỗi
+  sốLầnSai : Số nguyên
+  khóaĐến : Ngày giờ
+}
+
+class "NgườiDùng" as NguoiDung <<tác nhân>>
+
+Nhom "0..1" o-- "0..*" LienHe : thuộc >
+NguoiDung "1" -- "0..*" LienHe : quản lý >
+NguoiDung "1" -- "0..*" Nhom : tạo >
+NguoiDung "1" -- "1" BaoMat : được bảo vệ bởi >
+@enduml

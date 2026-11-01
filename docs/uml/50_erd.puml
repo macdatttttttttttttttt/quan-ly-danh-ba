@@ -1,0 +1,51 @@
+@startuml erd
+!pragma layout smetana
+!include style.iuml
+hide circle
+skinparam linetype ortho
+title Mô hình dữ liệu quan hệ (SQLite)
+
+entity "contact_groups" as G {
+  * id : INTEGER <<PK, AUTOINCREMENT>>
+  --
+  * name : TEXT <<UNIQUE, NOCASE, 1..50 ký tự>>
+  * created_at : TEXT (ISO 8601)
+}
+
+entity "contacts" as C {
+  * id : INTEGER <<PK, AUTOINCREMENT>>
+  --
+  * full_name : TEXT <<1..100 ký tự>>
+  * search_name : TEXT (tên không dấu, chữ thường)
+  * phone : TEXT <<10..11 ký tự>>
+  email : TEXT
+  address : TEXT
+  note : TEXT <<≤ 500 ký tự>>
+  group_id : INTEGER <<FK → contact_groups.id, ON DELETE SET NULL>>
+  * is_favorite : INTEGER <<0 | 1>>
+  * is_deleted : INTEGER <<0 | 1>>
+  deleted_at : TEXT
+  * created_at : TEXT
+  * updated_at : TEXT
+}
+
+entity "app_settings" as S {
+  * key : TEXT <<PK>>
+  --
+  value : TEXT
+}
+
+G |o--o{ C : "nhóm có 0..n liên hệ"
+
+note right of C
+  Chỉ mục:
+  • ux_contacts_active_phone: UNIQUE(phone) WHERE is_deleted = 0
+  • ix_contacts_search_name(search_name)
+  • ix_contacts_group(group_id)
+end note
+
+note right of S
+  Khóa dùng: pin_hash, pin_salt,
+  pin_failed_attempts, pin_locked_until
+end note
+@enduml

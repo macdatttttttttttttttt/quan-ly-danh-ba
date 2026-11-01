@@ -1,0 +1,37 @@
+@startuml usecase_lien_he
+!pragma layout smetana
+!include style.iuml
+left to right direction
+title Phân rã ca sử dụng nhóm "Quản lý liên hệ"
+
+actor "Người dùng" as User
+
+rectangle "Quản lý liên hệ" {
+  usecase "UC-01 Xem danh sách\n(sắp xếp A–Z)" as UC01
+  usecase "UC-05 Tìm kiếm\ntheo tên / số" as UC05
+  usecase "Xem chi tiết liên hệ" as View
+  usecase "UC-02 Thêm liên hệ" as UC02
+  usecase "UC-03 Sửa liên hệ" as UC03
+  usecase "Kiểm tra dữ liệu\n(BR-01..BR-04)" as Validate
+  usecase "Kiểm tra trùng\nsố điện thoại (BR-03)" as Dup
+  usecase "UC-04a Chuyển vào thùng rác" as Trash
+  usecase "UC-04b Khôi phục liên hệ" as Restore
+  usecase "UC-04c Xóa vĩnh viễn" as Purge
+  usecase "UC-06 Đánh dấu yêu thích" as Fav
+}
+
+User --> UC01
+User --> UC02
+User --> UC03
+User --> Trash
+User --> Restore
+User --> Purge
+User --> Fav
+
+UC05 .> UC01 : <<extend>>
+View .> UC01 : <<extend>>
+UC02 ..> Validate : <<include>>
+UC03 ..> Validate : <<include>>
+Validate ..> Dup : <<include>>
+Restore ..> Dup : <<include>>
+@enduml

@@ -1,0 +1,29 @@
+@startuml quy_trinh_as_is
+!include style.iuml
+title Quy trình nghiệp vụ hiện tại (As-Is): lưu và tìm số liên lạc
+
+|Người dùng|
+start
+:Nhận được số điện thoại mới\n(danh thiếp, tin nhắn, lời nói);
+if (Lưu vào đâu?) then (Sổ tay / giấy nhớ)
+  :Ghi tay tên và số vào sổ;
+  note right: Dễ thất lạc, không sao lưu
+else (Danh bạ mặc định của máy)
+  |Danh bạ mặc định|
+  :Nhập tên, số;
+  note right
+    Không cảnh báo trùng số,
+    không phân nhóm theo ý người dùng,
+    không có thùng rác để khôi phục
+  end note
+endif
+|Người dùng|
+:Cần liên lạc với một người;
+:Lật sổ / cuộn danh sách để tìm;
+if (Tìm thấy?) then (có)
+  :Gõ lại số vào bàn phím gọi;
+else (không)
+  :Hỏi lại người khác hoặc bỏ qua;
+endif
+stop
+@enduml

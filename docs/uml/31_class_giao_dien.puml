@@ -1,0 +1,50 @@
+@startuml class_giao_dien
+!pragma layout smetana
+!include style.iuml
+hide empty members
+title Biểu đồ lớp thiết kế – tầng giao diện và liên kết với tầng nghiệp vụ
+
+package "screens (tầng giao diện)" {
+  class App <<component>> {
+    - state : loading | setup | locked | unlocked
+  }
+  class LockScreen <<screen>>
+  class ContactListScreen <<screen>>
+  class ContactDetailScreen <<screen>>
+  class ContactFormScreen <<screen>>
+  class FavoritesScreen <<screen>>
+  class GroupsScreen <<screen>>
+  class TrashScreen <<screen>>
+  class SettingsScreen <<screen>>
+}
+
+class ServicesProvider <<context>> {
+  + useServices() : {contacts, groups, auth}
+}
+
+class ContactService
+class GroupService
+class AuthService
+
+App *-- LockScreen
+App *-- ContactListScreen
+App *-- ContactDetailScreen
+App *-- ContactFormScreen
+App *-- FavoritesScreen
+App *-- GroupsScreen
+App *-- TrashScreen
+App *-- SettingsScreen
+
+LockScreen ..> ServicesProvider
+ContactListScreen ..> ServicesProvider
+ContactDetailScreen ..> ServicesProvider
+ContactFormScreen ..> ServicesProvider
+FavoritesScreen ..> ServicesProvider
+GroupsScreen ..> ServicesProvider
+TrashScreen ..> ServicesProvider
+SettingsScreen ..> ServicesProvider
+
+ServicesProvider --> ContactService
+ServicesProvider --> GroupService
+ServicesProvider --> AuthService
+@enduml

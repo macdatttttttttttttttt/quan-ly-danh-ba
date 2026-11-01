@@ -1,0 +1,29 @@
+@startuml activity_xoa_khoi_phuc
+!include style.iuml
+title Biểu đồ hoạt động – Xóa, khôi phục và xóa vĩnh viễn liên hệ (UC-04)
+
+|Người dùng|
+start
+:Mở chi tiết liên hệ, bấm "Xóa liên hệ";
+|Ứng dụng|
+:Hỏi xác nhận;
+if (Người dùng đồng ý?) then (không)
+  stop
+endif
+:Đặt is_deleted = 1, ghi deleted_at\n(liên hệ vào thùng rác, số được giải phóng);
+|Người dùng|
+:Mở Cài đặt → Thùng rác;
+if (Chọn thao tác) then (Khôi phục)
+  |Ứng dụng|
+  if (Số điện thoại đã được\nliên hệ khác sử dụng?) then (có)
+    :Báo không thể khôi phục;
+  else (không)
+    :Đặt is_deleted = 0;
+  endif
+else (Xóa vĩnh viễn)
+  |Ứng dụng|
+  :Hỏi xác nhận lần nữa;
+  :DELETE khỏi bảng contacts;
+endif
+stop
+@enduml

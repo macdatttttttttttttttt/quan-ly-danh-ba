@@ -1,0 +1,36 @@
+@startuml quy_trinh_to_be
+!include style.iuml
+title Quy trình nghiệp vụ đề xuất (To-Be) với ứng dụng Quản lý danh bạ
+
+|Người dùng|
+start
+:Mở ứng dụng;
+|Ứng dụng|
+:Yêu cầu nhập mã PIN;
+|Người dùng|
+:Nhập mã PIN;
+|Ứng dụng|
+if (PIN đúng?) then (đúng)
+else (sai)
+  :Báo lỗi, đếm số lần sai\n(sai 5 lần: khóa 30 giây);
+  stop
+endif
+:Hiển thị danh bạ A–Z;
+|Người dùng|
+if (Mục đích?) then (Lưu số mới)
+  :Nhập thông tin, chọn nhóm;
+  |Ứng dụng|
+  :Kiểm tra dữ liệu, chuẩn hóa số,\nkiểm tra trùng;
+  :Lưu vào CSDL SQLite trên máy;
+else (Liên lạc)
+  |Người dùng|
+  :Gõ vài ký tự tên (không cần dấu)\nhoặc một phần số;
+  |Ứng dụng|
+  :Lọc kết quả tức thì;
+  |Người dùng|
+  :Chọn liên hệ, bấm Gọi / SMS / Email;
+  |Ứng dụng|
+  :Chuyển sang ứng dụng gọi điện\nhoặc nhắn tin của hệ thống;
+endif
+stop
+@enduml

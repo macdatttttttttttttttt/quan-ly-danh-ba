@@ -1,0 +1,27 @@
+' Kiểu trình bày chung cho mọi sơ đồ
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam ArrowColor #1F2937
+skinparam BackgroundColor white
+skinparam ActorBorderColor #1565C0
+skinparam ActorBackgroundColor #E3F2FD
+skinparam UsecaseBorderColor #1565C0
+skinparam UsecaseBackgroundColor #E3F2FD
+skinparam ClassBorderColor #1565C0
+skinparam ClassBackgroundColor #F8FAFC
+skinparam ClassHeaderBackgroundColor #E3F2FD
+skinparam PackageBorderColor #64748B
+skinparam ParticipantBorderColor #1565C0
+skinparam ParticipantBackgroundColor #E3F2FD
+skinparam SequenceLifeLineBorderColor #94A3B8
+skinparam ActivityBorderColor #1565C0
+skinparam ActivityBackgroundColor #E3F2FD
+skinparam ActivityDiamondBackgroundColor #FFF8E1
+skinparam NoteBackgroundColor #FFFDE7
+skinparam NoteBorderColor #F9A825
+skinparam ComponentBorderColor #1565C0
+skinparam ComponentBackgroundColor #E3F2FD
+skinparam NodeBackgroundColor #F1F5F9
+skinparam DatabaseBackgroundColor #E8F5E9

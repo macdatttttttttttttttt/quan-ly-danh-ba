@@ -1,0 +1,43 @@
+@startmindmap wbs
+title Cấu trúc phân rã công việc (WBS) – Dự án Ứng dụng Quản lý danh bạ
+<style>
+mindmapDiagram {
+  node { BackgroundColor #F8FAFC; LineColor #1565C0 }
+  rootNode { BackgroundColor #E3F2FD }
+}
+</style>
+* 0. Ứng dụng Quản lý danh bạ
+** 1. Khởi động & khảo sát
+*** 1.1 Thành lập nhóm, chọn đề tài
+*** 1.2 Thiết kế bảng hỏi khảo sát
+*** 1.3 Thu thập, tổng hợp kết quả
+*** 1.4 Mô hình hóa As-Is / To-Be
+** 2. Lập kế hoạch
+*** 2.1 WBS, phân công
+*** 2.2 Ước lượng công sức, chi phí
+*** 2.3 Gantt, mốc tiến độ
+*** 2.4 Danh mục rủi ro
+** 3. Phân tích & thiết kế
+*** 3.1 Đặc tả yêu cầu (SRS)
+*** 3.2 Use case & đặc tả
+*** 3.3 Lớp miền, hoạt động, tuần tự
+*** 3.4 Kiến trúc, lớp thiết kế
+*** 3.5 Thiết kế CSDL
+*** 3.6 Wireframe / prototype
+*** 3.7 Bảng truy vết
+** 4. Cài đặt
+*** 4.1 Khởi tạo dự án, Git, CI
+*** 4.2 Tầng dữ liệu SQLite
+*** 4.3 Tầng nghiệp vụ
+*** 4.4 Giao diện 8 màn hình
+*** 4.5 Tích hợp, chạy thử
+** 5. Kiểm thử
+*** 5.1 Kế hoạch kiểm thử
+*** 5.2 Thiết kế test case
+*** 5.3 Kiểm thử đơn vị & tích hợp tự động
+*** 5.4 Kiểm thử hệ thống & chấp nhận
+*** 5.5 Quản lý lỗi, kiểm thử hồi quy
+** 6. Kết thúc
+*** 6.1 Viết báo cáo
+*** 6.2 Chuẩn bị trình diễn, bảo vệ
+@endmindmap

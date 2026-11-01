@@ -1,0 +1,30 @@
+@startuml activity_them_lien_he
+!include style.iuml
+title Biểu đồ hoạt động – Thêm / sửa liên hệ (UC-02, UC-03)
+
+|Người dùng|
+start
+:Bấm nút (+) hoặc biểu tượng Sửa;
+|Ứng dụng|
+:Hiển thị form liên hệ\n(điền sẵn nếu là sửa);
+repeat
+  |Người dùng|
+  :Nhập họ tên, số điện thoại,\nemail, địa chỉ, ghi chú, chọn nhóm;
+  :Bấm "Lưu";
+  |Ứng dụng|
+  :Kiểm tra họ tên (BR-01),\nsố điện thoại (BR-02), email (BR-04);
+  if (Dữ liệu hợp lệ?) then (không)
+    :Hiển thị lỗi màu đỏ dưới từng ô;
+  else (có)
+    :Chuẩn hóa số (bỏ khoảng trắng, +84 → 0);
+    :Tìm liên hệ đang hoạt động có cùng số (BR-03);
+    if (Trùng số?) then (có)
+      :Báo "Số này đã lưu cho ...";
+    else (không)
+      :Lưu vào bảng contacts;
+      :Quay lại danh sách / chi tiết;
+      stop
+    endif
+  endif
+repeat while (Người dùng sửa lại dữ liệu)
+@enduml

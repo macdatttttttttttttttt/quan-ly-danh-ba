@@ -1,0 +1,118 @@
+@startuml class_thiet_ke
+!pragma layout smetana
+!include style.iuml
+title Biểu đồ lớp thiết kế (tầng nghiệp vụ và tầng truy cập dữ liệu)
+
+package "services (tầng nghiệp vụ)" {
+  class ContactService {
+    - repo : ContactRepository
+    - now : () => string
+    + create(input) : Promise<number>
+    + update(id, input) : Promise<void>
+    + getById(id) : Promise<Contact>
+    + list(keyword, groupId, favoritesOnly) : Promise<Contact[]>
+    + {static} toSections(contacts) : Section[]
+    + toggleFavorite(id) : Promise<boolean>
+    + moveToTrash(id) : Promise<void>
+    + listTrash() : Promise<Contact[]>
+    + restore(id) : Promise<void>
+    + deletePermanently(id) : Promise<void>
+    - ensureValid(input, excludeId)
+    - toRecord(input)
+  }
+  class GroupService {
+    - repo : GroupRepository
+    + list() : Promise<Group[]>
+    + create(name) : Promise<number>
+    + rename(id, name) : Promise<void>
+    + remove(id) : Promise<void>
+    - ensureValidName(name, excludeId)
+  }
+  class AuthService {
+    - repo : SettingsRepository
+    - hash : (text) => Promise<string>
+    - makeSalt : () => string
+    + hasPin() : Promise<boolean>
+    + setPin(pin, confirmPin) : Promise<void>
+    + verify(pin) : Promise<boolean>
+    + changePin(old, new, confirm) : Promise<void>
+    + lockRemainingMs() : Promise<number>
+  }
+  class "validation" as Validation <<module>> {
+    + normalizePhone(phone) : string
+    + isValidPhone(phone) : boolean
+    + isValidEmail(email) : boolean
+    + isValidPin(pin) : boolean
+    + validateContact(input) : FieldErrors
+  }
+  class BusinessError {
+    + code : ErrorCode
+    + message : string
+    + fieldErrors : FieldErrors
+  }
+}
+
+package "db (tầng truy cập dữ liệu)" {
+  interface ContactRepository {
+    + findById(id)
+    + findActiveByPhone(phone, excludeId)
+    + findActive(filter)
+    + findDeleted()
+    + insert(record)
+    + update(id, record)
+    + setFavorite(id, value, at)
+    + softDelete(id, at)
+    + restore(id, at)
+    + hardDelete(id)
+  }
+  interface GroupRepository {
+    + findAll()
+    + findById(id)
+    + findByName(name)
+    + insert(name, at)
+    + rename(id, name)
+    + delete(id)
+  }
+  interface SettingsRepository {
+    + get(key)
+    + set(key, value)
+  }
+  class SqliteContactRepository
+  class SqliteGroupRepository
+  class SqliteSettingsRepository
+  class "schema" as Schema <<module>> {
+    + migrate(db)
+    - seed(db)
+  }
+}
+
+class Contact <<data>> {
+  id : number
+  fullName : string
+  searchName : string
+  phone : string
+  email : string?
+  address : string?
+  note : string?
+  groupId : number?
+  groupName : string?
+  isFavorite : boolean
+  isDeleted : boolean
+  deletedAt : string?
+  createdAt : string
+  updatedAt : string
+}
+
+ContactService --> ContactRepository
+ContactService ..> Validation
+ContactService ..> BusinessError : <<throws>>
+GroupService --> GroupRepository
+GroupService ..> BusinessError : <<throws>>
+AuthService --> SettingsRepository
+AuthService ..> Validation
+AuthService ..> BusinessError : <<throws>>
+SqliteContactRepository ..|> ContactRepository
+SqliteGroupRepository ..|> GroupRepository
+SqliteSettingsRepository ..|> SettingsRepository
+ContactRepository ..> Contact
+@enduml

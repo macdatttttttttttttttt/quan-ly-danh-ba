@@ -1,0 +1,26 @@
+@startmindmap dieu_huong
+title Cấu trúc điều hướng của ứng dụng
+* Mở ứng dụng
+** Tạo PIN (lần đầu)
+** Nhập PIN (các lần sau)
+*** Thanh tab dưới
+**** Danh bạ
+***** Tìm kiếm
+***** Chi tiết liên hệ
+****** Gọi / SMS / Email
+****** Yêu thích
+****** Sửa liên hệ
+****** Xóa → Thùng rác
+***** (+) Thêm liên hệ
+**** Yêu thích
+***** Chi tiết liên hệ
+**** Nhóm
+***** Thêm / đổi tên / xóa nhóm
+***** Liên hệ trong nhóm
+****** Chi tiết liên hệ
+**** Cài đặt
+***** Thùng rác
+****** Khôi phục / Xóa vĩnh viễn
+***** Khóa ứng dụng ngay
+***** Đổi mã PIN
+@endmindmap

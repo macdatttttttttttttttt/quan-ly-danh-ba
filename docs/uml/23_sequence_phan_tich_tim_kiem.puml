@@ -1,0 +1,19 @@
+@startuml sequence_phan_tich_tim_kiem
+!include style.iuml
+title Biểu đồ tuần tự phân tích – Tìm kiếm liên hệ (UC-05)
+autonumber
+
+actor "Người dùng" as U
+boundary "GDDanhSachLienHe" as B
+control "DKLienHe" as C
+entity "LienHe" as E
+
+U -> B : gõ từ khóa
+B -> C : tìmKiếm(từKhóa)
+C -> C : bỏ dấu từ khóa;\nnếu toàn chữ số thì chuẩn hóa thành số điện thoại
+C -> E : lọc liên hệ chưa xóa có\ntên không dấu hoặc số chứa từ khóa
+E --> C : danh sách phù hợp (A–Z)
+C --> B : danh sách
+B -> B : nhóm theo chữ cái đầu
+B --> U : hiển thị kết quả / "Không tìm thấy"
+@enduml

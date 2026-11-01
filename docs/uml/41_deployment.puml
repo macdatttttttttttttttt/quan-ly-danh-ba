@@ -1,0 +1,32 @@
+@startuml deployment
+!pragma layout smetana
+!include style.iuml
+title Biểu đồ triển khai
+
+node "Điện thoại Android / iOS" as Phone {
+  node "Expo Go hoặc bản build APK" as Runtime {
+    artifact "Gói JavaScript\n(ứng dụng Danh bạ)" as Bundle
+  }
+  database "danhba.db\n(SQLite, bộ nhớ trong ứng dụng)" as DB
+  component "Ứng dụng Điện thoại / Tin nhắn / Email\ncủa hệ điều hành" as OS
+}
+
+node "Máy tính phát triển" as Dev {
+  component "Expo CLI (Metro bundler)" as Metro
+}
+
+cloud "GitHub" as GH {
+  component "Kho mã nguồn (Git)" as Repo
+  component "GitHub Actions (CI)" as CI
+}
+
+Bundle --> DB : đọc / ghi
+Bundle --> OS : Linking (tel:, sms:, mailto:)
+Metro ..> Runtime : nạp gói JS qua mạng LAN\n(quét mã QR)
+Dev --> Repo : git push
+Repo --> CI : kích hoạt lint + test + build
+note bottom of DB
+  Dữ liệu chỉ lưu trên thiết bị,
+  không gửi lên máy chủ nào.
+end note
+@enduml

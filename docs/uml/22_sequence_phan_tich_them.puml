@@ -1,0 +1,30 @@
+@startuml sequence_phan_tich_them
+!include style.iuml
+title Biểu đồ tuần tự phân tích – Thêm liên hệ (UC-02)
+autonumber
+
+actor "Người dùng" as U
+boundary "GDFormLienHe" as F
+control "DKLienHe" as C
+entity "LienHe" as E
+
+U -> F : nhập thông tin, bấm Lưu
+F -> C : thêm(thôngTin)
+C -> C : kiểm tra dữ liệu
+alt dữ liệu không hợp lệ
+  C --> F : danh sách lỗi theo trường
+  F --> U : hiển thị lỗi
+else hợp lệ
+  C -> E : tìm liên hệ có cùng số
+  alt đã tồn tại
+    E --> C : liên hệ trùng
+    C --> F : lỗi trùng số
+    F --> U : "Số này đã lưu cho ..."
+  else chưa tồn tại
+    C -> E : tạo liên hệ mới
+    E --> C : mã liên hệ
+    C --> F : thành công
+    F --> U : quay lại danh sách
+  end
+end
+@enduml

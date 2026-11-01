@@ -1,0 +1,80 @@
+@startgantt gantt
+title Biểu đồ Gantt – Kế hoạch và tiến độ dự án (cập nhật ngày 02/11/2026)
+language vi
+printscale daily zoom 2
+Project starts 2026-10-19
+saturday are closed
+sunday are closed
+today is 2026-11-02 and is colored in #FFCDD2
+
+-- 1. Khởi động & khảo sát --
+[1.1 Thành lập nhóm, chọn đề tài] as [T11] lasts 1 day
+[1.2 Thiết kế bảng hỏi] as [T12] lasts 1 day
+[T12] starts at [T11]'s end
+[1.3 Thu thập, tổng hợp khảo sát] as [T13] lasts 5 days
+[T13] starts at [T12]'s end
+[1.4 Mô hình As-Is / To-Be] as [T14] lasts 1 day
+[T14] starts at [T12]'s end
+[M1 Chốt yêu cầu sơ bộ] happens at [T14]'s end
+
+-- 2. Lập kế hoạch --
+[2.1-2.4 WBS, ước lượng, Gantt, rủi ro] as [T2] lasts 2 days
+[T2] starts at [T14]'s end
+
+-- 3. Phân tích & thiết kế --
+[3.1 SRS] as [T31] lasts 1 day
+[T31] starts at [T14]'s end
+[3.2-3.3 Use case, mô hình phân tích] as [T32] lasts 1 day
+[T32] starts at [T31]'s end
+[3.4-3.5 Kiến trúc, lớp thiết kế, CSDL] as [T34] lasts 1 day
+[T34] starts at [T32]'s end
+[3.6 Prototype giao diện] as [T36] lasts 2 days
+[T36] starts at [T32]'s end
+[M2 Duyệt thiết kế] happens at [T34]'s end
+
+-- 4. Cài đặt --
+[4.1 Khởi tạo dự án, Git, CI] as [T41] lasts 1 day
+[T41] starts at [T34]'s end
+[4.2-4.3 Tầng dữ liệu, nghiệp vụ] as [T42] lasts 2 days
+[T42] starts at [T41]'s end
+[4.4 Giao diện] as [T44] lasts 2 days
+[T44] starts at [T41]'s end
+[4.5 Tích hợp, chạy thử] as [T45] lasts 1 day
+[T45] starts at [T44]'s end
+[M3 Bản chạy được] happens at [T45]'s end
+
+-- 5. Kiểm thử --
+[5.1-5.2 Kế hoạch, test case] as [T51] lasts 2 days
+[T51] starts at [T42]'s start
+[5.3 Kiểm thử tự động] as [T53] lasts 1 day
+[T53] starts at [T42]'s end
+[5.4-5.5 Kiểm thử hệ thống, hồi quy] as [T54] lasts 3 days
+[T54] starts at [T45]'s end
+
+-- 6. Kết thúc --
+[6.1 Viết báo cáo] as [T61] lasts 10 days
+[T61] starts at [T45]'s end
+[6.2 Chuẩn bị bảo vệ] as [T62] lasts 5 days
+[T62] starts at [T61]'s end
+[M4 Nộp bài] happens at [T62]'s end
+
+' Tỉ lệ hoàn thành tính đến ngày 02/11/2026
+[T11] is 100% completed
+[T12] is 100% completed
+[T13] is 40% completed
+[T14] is 100% completed
+[T2] is 100% completed
+[T31] is 100% completed
+[T32] is 100% completed
+[T34] is 100% completed
+[T36] is 100% completed
+[T41] is 100% completed
+[T42] is 100% completed
+[T44] is 100% completed
+[T45] is 100% completed
+[T51] is 100% completed
+[T53] is 100% completed
+[T54] is 80% completed
+[T61] is 70% completed
+[T62] is 0% completed
+@endgantt

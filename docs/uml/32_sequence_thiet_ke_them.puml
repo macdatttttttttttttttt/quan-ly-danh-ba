@@ -1,0 +1,43 @@
+@startuml sequence_thiet_ke_them
+!include style.iuml
+title Biểu đồ tuần tự thiết kế – Thêm liên hệ (UC-02)
+autonumber
+
+actor "Người dùng" as U
+participant ":ContactFormScreen" as F
+participant ":ContactService" as S
+participant "validation" as V
+participant ":SqliteContactRepository" as R
+database "SQLite\n(danhba.db)" as DB
+
+U -> F : nhập dữ liệu, bấm "Lưu"
+F -> S : create(form)
+activate S
+S -> V : validateContact(form)
+V --> S : errors
+alt errors không rỗng
+  S --> F : throw BusinessError(VALIDATION, fieldErrors)
+  F --> U : hiển thị lỗi dưới từng ô nhập
+else hợp lệ
+  S -> V : normalizePhone(form.phone)
+  V --> S : "09xxxxxxxx"
+  S -> R : findActiveByPhone(phone, null)
+  R -> DB : SELECT ... WHERE is_deleted = 0 AND phone = ?
+  DB --> R : row | null
+  R --> S : Contact | null
+  alt đã có liên hệ dùng số này
+    S --> F : throw BusinessError(DUPLICATE_PHONE)
+    F --> U : "Số này đã lưu cho ..."
+  else chưa có
+    S -> S : toRecord(form)\n(searchName = removeAccents(fullName))
+    S -> R : insert(record)
+    R -> DB : INSERT INTO contacts (...) VALUES (?, ...)
+    DB --> R : lastInsertRowId
+    R --> S : id
+    S --> F : id
+    F -> F : navigation.goBack()
+    F --> U : danh sách đã có liên hệ mới
+  end
+end
+deactivate S
+@enduml
